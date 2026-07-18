@@ -1,0 +1,154 @@
+@import "tailwindcss";
+
+@theme {
+  --color-bg: #ece7d3;
+  --color-bg-soft: #f4efdc;
+  --color-ink: #1a1a1a;
+  --color-moss: #6b8e4e;
+  --color-moss-dark: #3d5a30;
+  --color-sun: #d9b64e;
+  --color-shadow: #8a8570;
+  --color-line: #2a2a2a;
+
+  --font-pixel: var(--font-press-start), "Press Start 2P", ui-monospace, monospace;
+  --font-mono: var(--font-vt323), "VT323", ui-monospace, monospace;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+html,
+body {
+  background: var(--color-bg);
+  color: var(--color-ink);
+  font-family: var(--font-mono);
+  font-size: 20px;
+  line-height: 1.4;
+}
+
+* {
+  image-rendering: pixelated;
+  image-rendering: crisp-edges;
+}
+
+.font-pixel {
+  font-family: var(--font-pixel);
+  letter-spacing: 0.02em;
+}
+
+.font-mono {
+  font-family: var(--font-mono);
+}
+
+/* CRT scanline overlay */
+.scanlines::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  background: repeating-linear-gradient(
+    0deg,
+    rgba(0, 0, 0, 0.05) 0px,
+    rgba(0, 0, 0, 0.05) 1px,
+    transparent 1px,
+    transparent 3px
+  );
+  pointer-events: none;
+  z-index: 50;
+}
+
+/* Chunky pixel border via box-shadow (no antialias) */
+.pixel-border {
+  box-shadow:
+    0 -3px 0 0 var(--color-ink),
+    0 3px 0 0 var(--color-ink),
+    -3px 0 0 0 var(--color-ink),
+    3px 0 0 0 var(--color-ink);
+}
+
+.pixel-border-thick {
+  box-shadow:
+    0 -4px 0 0 var(--color-ink),
+    0 4px 0 0 var(--color-ink),
+    -4px 0 0 0 var(--color-ink),
+    4px 0 0 0 var(--color-ink);
+}
+
+.pixel-shadow {
+  box-shadow:
+    4px 4px 0 0 var(--color-ink);
+}
+
+.pixel-shadow-lg {
+  box-shadow:
+    6px 6px 0 0 var(--color-ink);
+}
+
+/* Blinking cursor */
+@keyframes blink {
+  0%, 50% { opacity: 1; }
+  51%, 100% { opacity: 0; }
+}
+.blink {
+  animation: blink 1s steps(1) infinite;
+}
+
+/* Bob (up-down pixel bounce) */
+@keyframes bob {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-3px); }
+}
+.bob {
+  animation: bob 0.6s steps(2) infinite;
+}
+
+/* Slow float */
+@keyframes float {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-4px); }
+}
+.float {
+  animation: float 3s ease-in-out infinite;
+}
+
+/* Walk frame swap */
+@keyframes walk-a {
+  0%, 49% { opacity: 1; }
+  50%, 100% { opacity: 0; }
+}
+@keyframes walk-b {
+  0%, 49% { opacity: 0; }
+  50%, 100% { opacity: 1; }
+}
+.walk-a { animation: walk-a 0.45s steps(1) infinite; }
+.walk-b { animation: walk-b 0.45s steps(1) infinite; }
+
+/* Cloud drift */
+@keyframes drift {
+  from { transform: translateX(-10%); }
+  to { transform: translateX(110vw); }
+}
+.drift-slow { animation: drift 60s linear infinite; }
+.drift-med { animation: drift 45s linear infinite; }
+.drift-fast { animation: drift 30s linear infinite; }
+
+/* Typewriter caret */
+.caret::after {
+  content: "_";
+  display: inline-block;
+  margin-left: 4px;
+  animation: blink 1s steps(1) infinite;
+  color: var(--color-moss);
+}
+
+/* Selection */
+::selection {
+  background: var(--color-moss);
+  color: var(--color-bg-soft);
+}
+
+/* Reset focus ring to pixel style */
+:focus-visible {
+  outline: 3px solid var(--color-moss);
+  outline-offset: 3px;
+}
