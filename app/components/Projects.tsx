@@ -44,7 +44,7 @@ const projects: Project[] = [
 
 export default function Projects() {
   return (
-    <Section id="work" label="// 02" title="selected work">
+    <Section id="work" label="// 03" title="selected work">
       <ul className="grid gap-6 md:grid-cols-2">
         {projects.map((p) => (
           <li key={p.name}>
